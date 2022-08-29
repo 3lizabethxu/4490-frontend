@@ -86,7 +86,8 @@ export default function TopDonationsDollarsByIndustry(props: any) {
     return (
       <div className="h-full w-full">
         <TileTitle
-          title="Top Industry Receipts"
+          //title="Top Industry Receipts"
+          title="Top Industry Donors"
           selectFunction={setLocalPeriod}
           localPeriod={localPeriod}
           fakeData
@@ -121,7 +122,8 @@ export default function TopDonationsDollarsByIndustry(props: any) {
     return (
       <div className="h-full w-full">
         <TileTitle
-          title="Top Industry Receipts"
+          //title="Top Industry Receipts"
+          title="Top Industry Donors"
           selectFunction={setLocalPeriod}
           localPeriod={localPeriod}
           fakeData

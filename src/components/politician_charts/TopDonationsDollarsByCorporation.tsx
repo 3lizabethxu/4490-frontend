@@ -86,7 +86,8 @@ export default function TopDonationsDollarsByCorporation(props: any) {
     return (
       <div className="h-full w-full">
         <TileTitle
-          title="Top Corporation Receipts"
+        //title="Top Corporation Receipts"
+          title="Top Corporation Donors"
           selectFunction={setLocalPeriod}
           localPeriod={localPeriod}
           fakeData

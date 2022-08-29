@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { DataState } from "../../interfaces/global.interface";
 import { Politician } from "../../interfaces/politician.interface";
+import { ordinalSuffixOf } from "../../helper/formatting";
 
 export default function PoliticianInfo(props: any) {
   // Access the redux store
@@ -67,13 +68,36 @@ export default function PoliticianInfo(props: any) {
       role = "Representative";
     }
   }
+  // Compute politicians time in congress
+  let timeInHouse = "N/A";
+  let timeInSenate = "N/A";
+  for (let i = 0; i < poli.timeInCongress.length; i++) {
+    const start = new Date(poli.timeInCongress[i].startdate);
+    const end = new Date(poli.timeInCongress[i].enddate);
+    const startYear = start.getFullYear();
+    const endYear = end.getFullYear();
 
-  const temp =
-    "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
+    if (poli.timeInCongress[i].position.toLowerCase() === "house") {
+      timeInHouse = startYear + " - " + endYear;
+    } else if (poli.timeInCongress[i].position.toLowerCase() === "senate") {
+      timeInSenate = startYear + " - " + endYear;
+    }
+  }
+
+
+  //const temp =
+  //  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.";
   return (
     <div className="lg:pt-2 pl-8 pr-8 flex flex-col overflow-y-auto">
       <div className="flex items-center">
-        <GiPublicSpeaker size={85} className="mr-6" />
+        {/* <GiPublicSpeaker size={85} className="mr-6" /> */}
+        {/* <img src={require("../../images/deletelatercat.jpg")}/> */}
+        <img
+        src="https://hips.hearst
+        apps.com/hmg-prod.s3.amazonaws.com/images/little-cute-maltipoo-puppy-royalty-free-image-1652926025.jpg?crop=0.444xw:1.00xh;0.129xw,0&resize=980:*"
+        alt="car"
+        width={80}
+      />
         <div className="mb-0.5">
           <div className="text-xl lg:text-4xl font-bold mb-0.5">
             {poli.name}
@@ -101,7 +125,7 @@ export default function PoliticianInfo(props: any) {
         </div>
       </div>
       <div className="text-lg lg:text-xl text-gray-600 lg:mt-3">
-        {retired ? "Retired " : null}
+        {retired ? "Former " : null}
         {poli.party.toLowerCase() === "democratic" ? (
           <span className="text-blue font-semibold">
             {poli.party.charAt(0).toUpperCase() + poli.party.slice(1)}
@@ -126,7 +150,21 @@ export default function PoliticianInfo(props: any) {
         </div>
       </div>
       <div className="mt-2 lg:mb-2 lg:mt-4 text-sm lg:text-base text-gray-600">
-        {temp}
+        {/* {temp} */}
+    
+
+        {/* Copied From Power Tile  Time in Senate and in House */}
+        <div className="flex justify-between">
+        <div>
+          <div className="text-base lg:text-lg font-light leading-none">
+            Time in Senate is {timeInSenate} and time in house is {timeInHouse}.
+          </div>
+        </div>
+        </div>
+
+
+
+
         {/* {poli.description} */}
       </div>
     </div>

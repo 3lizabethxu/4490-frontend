@@ -21,7 +21,7 @@ export default function TotalContributions(props: any) {
 
   const data = corporation[props.corpId].totalContributionsDollar;
 
-  // Iterate over donations and group then into intervals of 3 months
+  // Iterate over donations and group then into intervals of 6 months
   let start: Date = new Date(Date.parse(data[0].date));
   const end: Date = new Date(Date.parse(data[0].date));
   const month_group_number = 6;
