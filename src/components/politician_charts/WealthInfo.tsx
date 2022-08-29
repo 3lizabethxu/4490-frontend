@@ -2,6 +2,10 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { DataState } from "../../interfaces/global.interface";
 import { Politician } from "../../interfaces/politician.interface";
+import TileTitle from "../TileTitle";
+
+import PowerIdeologyChart from "../PowerIdeologyChart";
+import { ResponsiveContainer } from 'recharts'
 
 export default function WealthInfo(props: any) {
   // Access the redux store
@@ -31,24 +35,34 @@ export default function WealthInfo(props: any) {
   }
 
   return (
-    <div className="w-full lg:pt-8 pl-8 pr-8">
-      <div className="flex justify-center mb-4 text-lg lg:text-xl font-light">WEALTH</div>
-      <div className="lg:space-y-4 2xl:space-y-8">
-        <div>
-          <div className="text-lg lg:text-xl font-semibold">TBA</div>
-          <div className="text-base lg:text-lg font-light leading-none">Net Worth</div>
-        </div>
-        <div>
-          <div className="text-lg lg:text-xl font-semibold">TBA</div>
-          <div className="text-base lg:text-lg font-light leading-none">Increase</div>
-        </div>
-        <div>
-          <div className="text-lg lg:text-xl font-semibold">TBA</div>
-          <div className="text-base lg:text-lg font-light leading-none">
-            Rank
-          </div>
-        </div>
-      </div>
-    </div>
+  
+    // <div className="w-full lg:pt-8 pl-8 pr-8">
+    //   <div className="flex justify-center mb-4 text-lg lg:text-xl font-light">WEALTH</div>
+    //   <div className="lg:space-y-4 2xl:space-y-8">
+    //     <div>
+    //       <div className="text-lg lg:text-xl font-semibold">TBA</div>
+    //       <div className="text-base lg:text-lg font-light leading-none">Net Worth</div>
+    //     </div>
+    //     <div>
+    //       <div className="text-lg lg:text-xl font-semibold">TBA</div>
+    //       <div className="text-base lg:text-lg font-light leading-none">Increase</div>
+    //     </div>
+    //     <div>
+    //       <div className="text-lg lg:text-xl font-semibold">TBA</div>
+    //       <div className="text-base lg:text-lg font-light leading-none">
+    //         Rank
+    //       </div>
+    //     </div>
+    //   </div>
+    // </div>
+    <div className="h-full w-full">
+    <TileTitle
+          title="Power and Ideology"
+          fakeData
+        />
+       
+   <PowerIdeologyChart></PowerIdeologyChart>
+   </div>
+    
   );
 }

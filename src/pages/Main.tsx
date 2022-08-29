@@ -14,7 +14,7 @@ import * as highlightsImport from "../highlights.json";
 export default function Main() {
   const highlights = highlightsImport;
   return (
-    <div>
+    <div className="from-red to-blue">
       <HeaderMain />
       <div className="bg-gradient-to-tr from-red to-blue h-screen">
         <Particles

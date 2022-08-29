@@ -92,7 +92,7 @@ export default function PoliticianMain() {
   };
 
   return (
-    <div>
+    <div >
       <Header />
       <div className="m-10 lg:m-20 flex flex-col space-y-5">
         <p className="w-fill text-xl lg:text-4xl font-bold text-center sm:text-left">
@@ -148,4 +148,5 @@ export default function PoliticianMain() {
       <Footer />
     </div>
   );
+
 }

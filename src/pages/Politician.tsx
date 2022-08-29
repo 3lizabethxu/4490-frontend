@@ -18,6 +18,7 @@ import { DataState } from "../interfaces/global.interface";
 import { Politician as IPolitician } from "../interfaces/politician.interface";
 import PowerInfo from "../components/politician_charts/PowerInfo";
 import WealthInfo from "../components/politician_charts/WealthInfo";
+import PowerIdeology from "../components/politician_charts/PowerIdeology";
 
 export default function Politician() {
   // Get the default current period
@@ -34,8 +35,17 @@ export default function Politician() {
     end = curr_year - 1;
   }
 
+  //Allows selection period to default to current period instead of one year back
+  let startproxy = start+2;
+  let endproxy = end+2;
+
+  let shortened_endproxy = Number(String(endproxy).slice(-2));
+
+
+  //OLD LINE for nxt line DELETE LATER*********************** const default_period = start.toString() + "-" + end.toString();
+
   // Master period control
-  const default_period = start.toString() + "-" + end.toString();
+  const default_period = startproxy.toString() + "-" + endproxy.toString();
   const [current_period, setCurrentPeriod] = useState(default_period);
 
   // Get the corporation id from the url
@@ -68,8 +78,64 @@ export default function Politician() {
     const tailwindTileStyles =
       "pl-3 pr-3 pt-2 pb-6 mb-4 h-1/3 flex justify-content-center content-center rounded lg:overflow-hidden border border-gray-150 shadow-md lg:mb-0 lg:pt-4 lg:pb-6 lg:pl-4 lg:pr-2 lg:h-full" +
       " ";
+
+
+
+
+
+    // Compute politicians time in congress
+    let timeInCongress = 0;
+    for (let i = 0; i < politicians[poli_id].timeInCongress.length; i++) {
+      const start = new Date(politicians[poli_id].timeInCongress[i].startdate);
+      const end = new Date(politicians[poli_id].timeInCongress[i].enddate);
+      const startYear = start.getFullYear();
+      let endYear = end.getFullYear();
+  
+      if (endYear > new Date().getFullYear()) {
+        endYear = new Date().getFullYear();
+      }
+      timeInCongress += endYear - startYear;
+    }
+  
+    // Figure out if this politician is a current senator or rep
+    let role = "";
+    let retired = true;
+    for (let i = 0; i < politicians[poli_id].timeInCongress.length; i++) {
+      const start = new Date(politicians[poli_id].timeInCongress[i].startdate);
+      const end = new Date(politicians[poli_id].timeInCongress[i].enddate);
+      if (
+        politicians[poli_id].timeInCongress[i].position.toLowerCase() === "senate" &&
+        start <= new Date() &&
+        new Date() <= end
+      ) {
+        role = "Senator";
+        retired = false;
+        break;
+      } else if (
+        politicians[poli_id].timeInCongress[i].position.toLowerCase() === "house" &&
+        start <= new Date() &&
+        new Date() <= end
+      ) {
+        role = "Representative";
+        retired = false;
+        break;
+      } else if (politicians[poli_id].timeInCongress[i].position.toLowerCase() === "senate") {
+        role = "Senator";
+      } else if (politicians[poli_id].timeInCongress[i].position.toLowerCase() === "house") {
+        role = "Representative";
+      }
+    }
+
+    const retiredStyle= {
+          backgroundColor: "blue"
+      }
+    const activeStyle= {
+        backgroundColor: "white"
+    }
+
     return (
-      <div>
+    
+      <div style= {retired ? retiredStyle : activeStyle}>
         <Header />
         <div className="flex w-full mt-4 lg:mb-4 lg:mt-8 justify-end lg:pl-16 lg:pr-16 lg:mb-8 h-10">
           <div className="mt-0.5 mr-2 flex items-center text-gray-600 font-semibold text-regular lg:text-lg">
@@ -81,20 +147,25 @@ export default function Politician() {
           />
         </div>
         <div className="h-fit lg:pl-16 lg:pr-16 lg:mb-16">
-          <div className={tailwindGridRow}>
+          <div className={tailwindGridRow} >
             <div className={tailwindTileStyles + "lg:col-start-1 lg:col-end-7"}>
               <PoliticianInfo poliId={poli_id} />
             </div>
+            
             <div
               className={tailwindTileStyles + "lg:col-start-7 lg:col-end-11"}
             >
-              <PowerInfo poliId={poli_id} />
+                <PowerInfo poliId={poli_id} />
             </div>
+
             <div
               className={tailwindTileStyles + "lg:col-start-11 lg:col-end-13"}
+
+              
             >
-              <WealthInfo poliId={poli_id} />
+              {/* Power Ideology */}
             </div>
+            
           </div>
           <div className={tailwindGridRow}>
             <div className={tailwindTileStyles + "lg:col-start-1 lg:col-end-5"}>
@@ -125,9 +196,13 @@ export default function Politician() {
                 poliId={poli_id}
               />
             </div>
+
             <div
               className={tailwindTileStyles + "lg:col-start-5 lg:col-end-9"}
-            ></div>
+            >
+              <WealthInfo poliId={poli_id} />
+            </div>
+
             <div
               className={tailwindTileStyles + "lg:col-start-9 lg:col-end-13"}
             ></div>

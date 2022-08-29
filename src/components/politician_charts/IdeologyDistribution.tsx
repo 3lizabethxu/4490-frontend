@@ -11,12 +11,15 @@ import {
   Line,
   ReferenceLine,
   Label,
+  BarChart,
+  Bar
 } from "recharts";
 import { addPoliticianPeriod } from "../../store/actions/politicianActionCreators";
 import TileLoading from "../TileLoading";
 import { DataState } from "../../interfaces/global.interface";
 import { Politician } from "../../interfaces/politician.interface";
 import TileTitle from "../TileTitle";
+import TileIdeologyTitle from "../TileIdeologyTitle";
 
 export default function IdeologyDistribution(props: any) {
   const [localPeriod, setLocalPeriod] = useState(props.globalPeriod);
@@ -48,7 +51,23 @@ export default function IdeologyDistribution(props: any) {
     // Data to feed the graph
     const data =
       politicians[props.poliId].periods[localPeriod].ideologyDistribution;
+//START OF NEW CODE
+    // const ideologyToValue: any = {};
+    // for (let i = 0; i<data.length; i++){
+    //   ideologyToValue[data[i].ideology.toFixed(2)] = data[i].count;
+    // }
 
+    // const smoothed_data = [];
+    // const bin_size = 0.1
+
+
+
+
+//END OF NEW CODE
+
+
+
+//START OF SECTION FOR REWRITE (new is binning instead of continous)***************
     // Pass through data and convert to a dictionary so that we can quickly see what ideology scores are missing
     const ideologyToValue: any = {};
     for (let i = 0; i < data.length; i++) {
@@ -97,6 +116,8 @@ export default function IdeologyDistribution(props: any) {
         count: amount,
       });
     }
+//END OF SECTION FOR REWRITE (new is binning instead of continous)*************
+
 
     // Custom tooltip style for each bar
     const CustomTooltip = ({ active, payload }: any) => {
@@ -117,15 +138,41 @@ export default function IdeologyDistribution(props: any) {
       );
     };
 
+    const SampleGraphdata = [
+      {name: 'Geeksforgeeks', students: 400},
+      {name: 'Technical scripter', students: 700},
+      {name: 'Geek-i-knack', students: 200},
+      {name: 'Geek-o-mania', students: 1000},
+      {name: 'dummy', students: 1000}
+    ];
+
+
     return (
       <div className="h-full w-full">
-        <TileTitle
-          title="Ideology Distribution"
+
+
+       
+
+
+        <TileIdeologyTitle
+          ideologyscore={politicians[props.poliId].ideology}
           selectFunction={setLocalPeriod}
           localPeriod={localPeriod}
         />
         <ResponsiveContainer width="100%">
-          <LineChart
+
+        <BarChart width={600} height={250} data={SampleGraphdata} margin={{ top: 5, right: 25, left: 5, bottom: 30 }}>
+          <Bar dataKey="students" fill="#8884d8" />
+          <CartesianGrid stroke="#ccc" />
+          <XAxis dataKey="name" />
+          <YAxis />
+        </BarChart>
+
+
+
+
+          {/* LINE CHART START (OLD) ********************************************************/}
+          {/* <LineChart
             width={730}
             height={250}
             data={smoothed_data}
@@ -141,7 +188,7 @@ export default function IdeologyDistribution(props: any) {
                 parseFloat(smoothed_data[smoothed_data.length - 1].ideology),
               ]}
             />
-            <YAxis dataKey="count" />
+            <YAxis dataKey="count" domain={[0, 160]}/>
             <Tooltip content={CustomTooltip} />
             <Line
               type="monotone"
@@ -165,7 +212,9 @@ export default function IdeologyDistribution(props: any) {
                 value={politicians[props.poliId].name}
               />
             </ReferenceLine>
-          </LineChart>
+          </LineChart> */}
+
+          {/* LINE CHART (OLD) *************************************************************************************/}
         </ResponsiveContainer>
       </div>
     );
